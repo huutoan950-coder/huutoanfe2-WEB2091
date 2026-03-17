@@ -1,45 +1,40 @@
-import { Toaster } from "react-hot-toast";
-import { Link } from "react-router-dom";
+import { Link, Routes, Route } from "react-router-dom";
+import Lab1 from "./pages/Lab1";
+import Lab2 from "./pages/Lab2";
+import Lab3 from "./pages/Lab3";
 
 function App() {
   return (
-    <>
-      <nav className="bg-blue-600 text-white shadow">
-        <div className="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
-          <Link to="#" className="text-xl font-semibold">
-            <strong>WEB2091 App</strong>
+    <div className="flex flex-col h-screen overflow-hidden">
+      <nav className="bg-blue-600 text-white h-16 flex-none flex items-center justify-between px-6 shadow-md z-10">
+        <Link to="/" className="text-xl font-bold">
+          WEB2091 App
+        </Link>
+        <div className="flex space-x-6">
+          <Link to="/" className="hover:underline">
+            Lab 1
           </Link>
-
-          <div className="hidden md:flex items-center space-x-8">
-            <Link to="#" className="hover:text-gray-200">
-              Trang chủ
-            </Link>
-            <Link to="/list" className="hover:text-gray-200">
-              Danh sách
-            </Link>
-            <Link to="/add" className="hover:text-gray-200">
-              Thêm mới
-            </Link>
-          </div>
-
-          <div className="hidden md:flex items-center space-x-6">
-            <Link to="#" className="hover:text-gray-200">
-              Đăng nhập
-            </Link>
-            <Link to="#" className="hover:text-gray-200">
-              Đăng ký
-            </Link>
-          </div>
+          <Link to="/lab2" className="hover:underline">
+            Lab 2
+          </Link>
+          <Link to="/lab3" className="hover:underline">
+            Lab 3
+          </Link>
+        </div>
+        <div className="flex space-x-4">
+          <button className="hover:text-gray-200">Đăng nhập</button>
+          <button className="hover:text-gray-200">Đăng ký</button>
         </div>
       </nav>
 
-      {/* MAIN CONTENT */}
-      <div className="max-w-6xl mx-auto mt-10 px-4 text-center">
-        <h1 className="text-4xl font-bold mb-4">Chào mừng đến với WEB2091</h1>
+      <div className="flex flex-1 overflow-hidden">
+        <Routes>
+          <Route path="/" element={<Lab1 />} />
+          <Route path="/lab2" element={<Lab2 />} />
+          <Route path="/lab3" element={<Lab3 />} />
+        </Routes>
       </div>
-
-      <Toaster />
-    </>
+    </div>
   );
 }
 
