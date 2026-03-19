@@ -1,10 +1,13 @@
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Button, Form, Input, Select } from "antd";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { IStory, ICategory } from "../interfaces";
 
 export default function StoryForm() {
+  const [form] = Form.useForm();
+  const queryClient = useQueryClient();
+
   const { data: categories, isLoading } = useQuery({
     queryKey: ["categories"],
     queryFn: async () => {
@@ -13,15 +16,18 @@ export default function StoryForm() {
     },
   });
 
-  const { mutate, isPending, isSuccess } = useMutation({
+  const { mutate, isPending } = useMutation({
     mutationFn: async (values: IStory) => {
-      await axios.post("http://localhost:3001/stories", values);
+      const payload = { ...values, createdAt: new Date().toISOString() };
+      await axios.post("http://localhost:3001/stories", payload);
     },
     onSuccess: () => {
-      toast.success("Story created successfully!");
+      toast.success("Thêm truyện thành công!");
+      form.resetFields();
+      queryClient.invalidateQueries({ queryKey: ["stories"] });
     },
     onError: () => {
-      toast.error("Failed to create story.");
+      toast.error("Thêm truyện thất bại.");
     },
   });
 
@@ -30,7 +36,7 @@ export default function StoryForm() {
   };
 
   return (
-    <Form layout="vertical" onFinish={onFinish}>
+    <Form form={form} layout="vertical" onFinish={onFinish}>
       <Form.Item label="Title" name="title" rules={[{ required: true }]}>
         <Input placeholder="title" />
       </Form.Item>
@@ -62,15 +68,9 @@ export default function StoryForm() {
         <Input.TextArea rows={4} placeholder="description" />
       </Form.Item>
 
-      <Button htmlType="submit" loading={isPending} type="primary">
+      <Button htmlType="submit" loading={isPending} type="primary" block>
         Submit
       </Button>
-
-      {isSuccess && (
-        <div style={{ color: "green", marginTop: "10px" }}>
-          Story created successfully!
-        </div>
-      )}
     </Form>
   );
 }

@@ -12,4 +12,5 @@ export interface IStory {
   image?: string;
   description?: string;
   categoryId: string | number;
+  createdAt?: string;
 }

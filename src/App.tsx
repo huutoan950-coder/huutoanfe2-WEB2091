@@ -3,6 +3,7 @@ import Lab1 from "./pages/Lab1";
 import Lab2 from "./pages/Lab2";
 import Lab3 from "./pages/Lab3";
 import Lab4 from "./pages/Lab4";
+import Lab5 from "./pages/Lab5";
 
 function App() {
   return (
@@ -21,11 +22,14 @@ function App() {
           <Link to="/lab3" className="hover:underline">
             Lab 3
           </Link>
+          <Link to="/lab4" className="hover:underline">
+            Lab 4
+          </Link>
           <Link
-            to="/lab4"
+            to="/lab5"
             className="hover:underline font-bold text-yellow-300"
           >
-            Lab 4
+            Lab 5
           </Link>
         </div>
         <div className="flex space-x-4">
@@ -40,6 +44,7 @@ function App() {
           <Route path="/lab2" element={<Lab2 />} />
           <Route path="/lab3" element={<Lab3 />} />
           <Route path="/lab4" element={<Lab4 />} />
+          <Route path="/lab5" element={<Lab5 />} />
         </Routes>
       </div>
     </div>
