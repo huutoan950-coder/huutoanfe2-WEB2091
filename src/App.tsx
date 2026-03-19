@@ -2,6 +2,7 @@ import { Link, Routes, Route } from "react-router-dom";
 import Lab1 from "./pages/Lab1";
 import Lab2 from "./pages/Lab2";
 import Lab3 from "./pages/Lab3";
+import Lab4 from "./pages/Lab4";
 
 function App() {
   return (
@@ -20,6 +21,12 @@ function App() {
           <Link to="/lab3" className="hover:underline">
             Lab 3
           </Link>
+          <Link
+            to="/lab4"
+            className="hover:underline font-bold text-yellow-300"
+          >
+            Lab 4
+          </Link>
         </div>
         <div className="flex space-x-4">
           <button className="hover:text-gray-200">Đăng nhập</button>
@@ -32,6 +39,7 @@ function App() {
           <Route path="/" element={<Lab1 />} />
           <Route path="/lab2" element={<Lab2 />} />
           <Route path="/lab3" element={<Lab3 />} />
+          <Route path="/lab4" element={<Lab4 />} />
         </Routes>
       </div>
     </div>
