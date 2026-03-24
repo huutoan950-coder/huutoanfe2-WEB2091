@@ -3,6 +3,7 @@ import { Button, Image, Input, Popconfirm, Spin, Table } from "antd";
 import axios from "axios";
 import { useState } from "react";
 import toast from "react-hot-toast";
+import { Link } from "react-router-dom";
 import { IStory } from "../interfaces";
 
 export default function StoryList() {
@@ -66,16 +67,23 @@ export default function StoryList() {
     {
       title: "Action",
       render: (_: any, record: IStory) => (
-        <Popconfirm
-          title="Bạn có chắc chắn muốn xóa truyện này?"
-          onConfirm={() => record.id && deleteStory(record.id)}
-          okText="Có"
-          cancelText="Không"
-        >
-          <Button danger type="primary">
-            Xóa
-          </Button>
-        </Popconfirm>
+        <div className="flex space-x-2">
+          <Link to={`/lab6/edit/${record.id}`}>
+            <Button className="bg-yellow-400 text-white border-none hover:bg-yellow-500">
+              Sửa
+            </Button>
+          </Link>
+          <Popconfirm
+            title="Bạn có chắc chắn muốn xóa truyện này?"
+            onConfirm={() => record.id && deleteStory(record.id)}
+            okText="Có"
+            cancelText="Không"
+          >
+            <Button danger type="primary">
+              Xóa
+            </Button>
+          </Popconfirm>
+        </div>
       ),
     },
   ];

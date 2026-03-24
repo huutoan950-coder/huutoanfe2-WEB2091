@@ -93,11 +93,11 @@
   ],
   "stories": [
     {
-      "title": "hihi",
+      "title": "huutoan",
       "categoryId": 1,
       "author": "Nguyễn Hữu Toàn",
       "image": "https://picsum.photos/400/300?random=1",
-      "description": "dddddd",
+      "description": "truyện hay",
       "id": 1
     },
     {
@@ -142,15 +142,16 @@
       "description": "kdkkdkdkkdk]",
       "createdAt": "2026-03-19T07:32:17.516Z",
       "id": 6
-    },
+    }
+  ],
+  "movies": [
     {
-      "title": "huuhuhuuh",
-      "categoryId": 1,
-      "author": "Nguyễn Văn B",
-      "image": "https://picsum.photos/400/300?random=1",
-      "description": "hiihihiih",
-      "createdAt": "2026-03-19T07:45:21.227Z",
-      "id": 7
+      "title": "hihiiii",
+      "director": "htoan",
+      "year": 10,
+      "poster": "https://vn.freepik.com/tao/cong-cu-thiet-ke-poster",
+      "description": "hị hị\n",
+      "id": 1
     }
   ]
 }

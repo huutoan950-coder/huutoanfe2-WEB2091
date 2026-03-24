@@ -14,3 +14,12 @@ export interface IStory {
   categoryId: string | number;
   createdAt?: string;
 }
+
+export interface IMovie {
+  id?: string | number;
+  title: string;
+  director: string;
+  year: number;
+  poster: string;
+  description: string;
+}
