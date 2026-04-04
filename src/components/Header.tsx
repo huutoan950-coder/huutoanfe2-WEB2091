@@ -1,60 +1,61 @@
-import { useContext } from "react";
-import { UserContext } from "../context/UserContext";
+import { useAuthStore } from "../stores/useAuthStore";
 import { ThemeContext } from "../context/ThemeContext";
-import { Avatar, Button, Space, Switch } from "antd";
+import { useContext } from "react";
+import { Avatar, Button, Space, Switch, Tag } from "antd";
+import { UserOutlined, LogoutOutlined } from "@ant-design/icons";
 
 export const Header = () => {
-  const userCtx = useContext(UserContext);
+  const { user, logout } = useAuthStore();
+
   const themeCtx = useContext(ThemeContext);
-  if (!userCtx || !themeCtx) return null;
+  if (!themeCtx) return null;
 
   return (
     <div
       style={{
-        padding: 20,
-        borderBottom: "1px solid #ccc",
+        padding: "15px 30px",
+        borderBottom: "1px solid #eee",
         display: "flex",
         justifyContent: "space-between",
+        alignItems: "center",
+        background: themeCtx.isDark ? "#141414" : "#fff",
+        color: themeCtx.isDark ? "#fff" : "#000",
       }}
     >
-      <Space>
-        {userCtx.user ? (
-          <>
-            <Avatar src={userCtx.user.avatar} /> <b>{userCtx.user.name}</b>
-          </>
+      <Space size="large">
+        <span style={{ fontSize: 18, fontWeight: "bold" }}>
+          LAB 9 - ZUSTAND
+        </span>
+        {user ? (
+          <Space>
+            <Avatar src={user.avatar} icon={<UserOutlined />} />
+            <b>{user.email}</b>
+            <Tag color="green">Đã đăng nhập</Tag>
+          </Space>
         ) : (
-          "Chưa đăng nhập"
+          <Tag color="default">Chưa đăng nhập</Tag>
         )}
       </Space>
-      <Space>
-        <span>{themeCtx.isDark ? "Dark Mode" : "Light Mode"}</span>
-        <Switch checked={themeCtx.isDark} onChange={themeCtx.toggleTheme} />
-      </Space>
-    </div>
-  );
-};
 
-export const Controls = () => {
-  const userCtx = useContext(UserContext);
-  if (!userCtx) return null;
-
-  return (
-    <div style={{ padding: 20 }}>
       <Space>
-        <Button
-          type="primary"
-          onClick={() =>
-            userCtx.setUser({
-              name: "Toàn Coder",
-              avatar: "https://i.pravatar.cc/150?u=toan",
-            })
-          }
-        >
-          Login
-        </Button>
-        <Button danger onClick={() => userCtx.setUser(null)}>
-          Logout
-        </Button>
+        {user && (
+          <Button
+            danger
+            type="primary"
+            size="small"
+            icon={<LogoutOutlined />}
+            onClick={logout}
+          >
+            Logout
+          </Button>
+        )}
+
+        <div style={{ marginLeft: 20 }}>
+          <span style={{ marginRight: 8 }}>
+            {themeCtx.isDark ? "🌙" : "☀️"}
+          </span>
+          <Switch checked={themeCtx.isDark} onChange={themeCtx.toggleTheme} />
+        </div>
       </Space>
     </div>
   );

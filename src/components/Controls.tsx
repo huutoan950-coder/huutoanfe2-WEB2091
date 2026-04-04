@@ -1,60 +1,33 @@
-import { useContext } from "react";
-import { UserContext } from "../context/UserContext";
-import { ThemeContext } from "../context/ThemeContext";
-import { Avatar, Button, Space, Switch } from "antd";
-
-export const Header = () => {
-  const userCtx = useContext(UserContext);
-  const themeCtx = useContext(ThemeContext);
-  if (!userCtx || !themeCtx) return null;
-
-  return (
-    <div
-      style={{
-        padding: 20,
-        borderBottom: "1px solid #ccc",
-        display: "flex",
-        justifyContent: "space-between",
-      }}
-    >
-      <Space>
-        {userCtx.user ? (
-          <>
-            <Avatar src={userCtx.user.avatar} /> <b>{userCtx.user.name}</b>
-          </>
-        ) : (
-          "Chưa đăng nhập"
-        )}
-      </Space>
-      <Space>
-        <span>{themeCtx.isDark ? "Dark Mode" : "Light Mode"}</span>
-        <Switch checked={themeCtx.isDark} onChange={themeCtx.toggleTheme} />
-      </Space>
-    </div>
-  );
-};
+import { useAuthStore } from "../stores/useAuthStore";
+import { Button, Space } from "antd";
 
 export const Controls = () => {
-  const userCtx = useContext(UserContext);
-  if (!userCtx) return null;
+  const { user, setUser, logout } = useAuthStore();
 
   return (
-    <div style={{ padding: 20 }}>
+    <div style={{ padding: 20, textAlign: "center" }}>
       <Space>
-        <Button
-          type="primary"
-          onClick={() =>
-            userCtx.setUser({
-              name: "Toàn Coder",
-              avatar: "https://i.pravatar.cc/150?u=toan",
-            })
-          }
-        >
-          Login
-        </Button>
-        <Button danger onClick={() => userCtx.setUser(null)}>
-          Logout
-        </Button>
+        {!user ? (
+          <Button
+            type="primary"
+            onClick={() =>
+              setUser({
+                user: {
+                  name: "Toàn Coder",
+                  email: "toan@fpt.edu.vn",
+                  avatar: "https://i.pravatar.cc/150?u=toan",
+                },
+                token: "fake-jwt-token-lab-9",
+              })
+            }
+          >
+            Login Giả Lập (Zustand)
+          </Button>
+        ) : (
+          <Button danger onClick={logout}>
+            Logout (Zustand)
+          </Button>
+        )}
       </Space>
     </div>
   );
