@@ -1,116 +1,144 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { Button, Image, Input, Popconfirm, Spin, Table } from "antd";
-import axios from "axios";
-import { useState } from "react";
-import toast from "react-hot-toast";
+import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
+import {
+  Table,
+  Button,
+  Image,
+  Popconfirm,
+  Spin,
+  Input,
+  Space,
+  Tag,
+} from "antd";
+import { useCRUDStory } from "../hooks/useCRUDStory";
 import { IStory } from "../interfaces";
 
 export default function StoryList() {
   const [keyword, setKeyword] = useState("");
-  const queryClient = useQueryClient();
+  const { list, remove } = useCRUDStory();
 
-  const { data, isLoading, isError } = useQuery({
-    queryKey: ["stories"],
-    queryFn: async () => {
-      const res = await axios.get("http://localhost:3001/stories");
-      return res.data as IStory[];
-    },
-  });
-
-  const { mutate: deleteStory } = useMutation({
-    mutationFn: async (id: string | number) => {
-      await axios.delete(`http://localhost:3001/stories/${id}`);
-    },
-    onSuccess: () => {
-      toast.success("Xóa truyện thành công!");
-      queryClient.invalidateQueries({ queryKey: ["stories"] });
-    },
-    onError: () => {
-      toast.error("Xóa thất bại!");
-    },
-  });
-
-  const filteredData = data?.filter((item) =>
-    item.title.toLowerCase().includes(keyword.toLowerCase()),
-  );
+  const filteredData = useMemo(() => {
+    return list.data?.filter((item: IStory) =>
+      item.title.toLowerCase().includes(keyword.toLowerCase()),
+    );
+  }, [list.data, keyword]);
 
   const columns = [
     {
       title: "ID",
       dataIndex: "id",
+      width: 70,
+      align: "center" as const,
     },
     {
       title: "Ảnh",
       dataIndex: "image",
-      render: (url: string) =>
-        url ? <Image src={url} width={60} /> : <span>Không ảnh</span>,
+      width: 100,
+      render: (url: string) => (
+        <Image
+          src={url}
+          width={60}
+          className="rounded shadow-sm"
+          fallback="https://placehold.co/60x80?text=No+Cover"
+        />
+      ),
     },
     {
-      title: "Tên truyện",
-      dataIndex: "title",
-    },
-    {
-      title: "Tác giả",
-      dataIndex: "author",
+      title: "Thông tin truyện",
+      key: "info",
+      render: (_: any, record: IStory) => (
+        <div className="space-y-1">
+          <div className="font-bold text-blue-700">{record.title}</div>
+          <div className="text-xs text-gray-500">
+            Tác giả: <Tag color="blue">{record.author}</Tag>
+          </div>
+        </div>
+      ),
     },
     {
       title: "Mô tả",
       dataIndex: "description",
+      ellipsis: true, // Tự động rút gọn nếu mô tả quá dài
+      className: "text-gray-600 italic",
     },
     {
-      title: "Created At",
+      title: "Ngày tạo",
       dataIndex: "createdAt",
+      width: 120,
       render: (date: string) =>
-        date ? new Date(date).toLocaleDateString("vi-VN") : "N/A",
+        date ? new Date(date).toLocaleDateString("vi-VN") : "---",
     },
     {
-      title: "Action",
+      title: "Thao tác",
+      width: 150,
+      align: "right" as const,
       render: (_: any, record: IStory) => (
-        <div className="flex space-x-2">
-          <Link to={`/lab6/edit/${record.id}`}>
-            <Button className="bg-yellow-400 text-white border-none hover:bg-yellow-500">
+        <Space>
+          <Link to={`/lab10/edit/${record.id}`}>
+            {" "}
+            {/* Toàn lưu ý check lại route edit của Lab 10 nhé */}
+            <Button size="small" type="primary" ghost>
               Sửa
             </Button>
           </Link>
           <Popconfirm
-            title="Bạn có chắc chắn muốn xóa truyện này?"
-            onConfirm={() => record.id && deleteStory(record.id)}
-            okText="Có"
-            cancelText="Không"
+            title="Xóa truyện này?"
+            description="Dữ liệu sẽ không thể khôi phục."
+            onConfirm={() => record.id && remove.mutate(record.id)}
+            okText="Xóa luôn"
+            cancelText="Hủy"
+            okButtonProps={{ danger: true, loading: remove.isPending }}
           >
-            <Button danger type="primary">
+            <Button size="small" danger>
               Xóa
             </Button>
           </Popconfirm>
-        </div>
+        </Space>
       ),
     },
   ];
 
-  if (isLoading)
+  if (list.isLoading)
     return (
-      <div className="flex justify-center p-8">
-        <Spin size="large" />
+      <div className="py-20 text-center">
+        <Spin size="large" tip="Đang tải danh sách..." />
       </div>
     );
-  if (isError)
-    return <p className="text-red-500 text-center">Lỗi tải dữ liệu</p>;
+
+  if (list.isError)
+    return (
+      <div className="p-10 bg-red-50 text-red-500 rounded-lg text-center font-bold">
+        ⚠️ Không thể kết nối đến máy chủ. Toàn kiểm tra lại cổng 3000 nhé!
+      </div>
+    );
 
   return (
-    <div className="space-y-4">
-      <Input.Search
-        placeholder="Tìm kiếm theo tên truyện..."
-        allowClear
-        enterButton
-        onChange={(e) => setKeyword(e.target.value)}
-        className="w-full max-w-md"
-      />
+    <div className="bg-white dark:bg-gray-900 p-4 rounded-xl shadow-md border border-gray-100 dark:border-gray-800">
+      <div className="mb-6 flex justify-between items-center">
+        <Input.Search
+          placeholder="Tìm tên truyện hoặc tác giả..."
+          allowClear
+          enterButton
+          onChange={(e) => setKeyword(e.target.value)}
+          className="max-w-md"
+          size="large"
+        />
+        <div className="text-gray-400 text-xs">
+          Tìm thấy <b>{filteredData?.length || 0}</b> kết quả
+        </div>
+      </div>
+
       <Table
         columns={columns}
         dataSource={filteredData}
         rowKey="id"
-        pagination={{ pageSize: 5 }}
+        pagination={{
+          pageSize: 5,
+          showTotal: (total) => `Tổng cộng ${total} truyện`,
+          position: ["bottomCenter"],
+        }}
+        bordered={false}
+        className="custom-table"
       />
     </div>
   );

@@ -11,7 +11,7 @@ export default function StoryForm() {
   const { data: categories, isLoading } = useQuery({
     queryKey: ["categories"],
     queryFn: async () => {
-      const res = await axios.get("http://localhost:3001/categories");
+      const res = await axios.get("http://localhost:3000/categories");
       return res.data as ICategory[];
     },
   });
@@ -19,7 +19,7 @@ export default function StoryForm() {
   const { mutate, isPending } = useMutation({
     mutationFn: async (values: IStory) => {
       const payload = { ...values, createdAt: new Date().toISOString() };
-      await axios.post("http://localhost:3001/stories", payload);
+      await axios.post("http://localhost:3000/stories", payload);
     },
     onSuccess: () => {
       toast.success("Thêm truyện thành công!");

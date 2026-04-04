@@ -1,11 +1,69 @@
 {
   "users": [
     {
+      "id": "1",
       "email": "huutoan950@gmail.com",
-      "password": "$2a$10$.LQOI.0DJRaSYxQ7dG8reu1HE8yvIrm3pxrmFbcF2Cs73TkR.LMnu",
-      "username": "huutoan",
-      "id": 1
+      "password": "123456",
+      "username": "huutoan"
+    },
+    {
+      "email": "huutoan9500@gmail.com",
+      "password": "$2a$10$7GLIsWjDAz5uA/Cpq.2Xu...WsHt/x2.mSjOu03RUr5tFUKJuGfhO",
+      "username": "abc",
+      "id": "wxbMoDW"
     }
   ],
-  "movies": []
+  "movies": [
+    {
+      "title": "Bố Giàaa",
+      "director": "Trấn Thànhhhh",
+      "year": 2023,
+      "poster": "https://picsum.photos/id/10/200/300",
+      "description": "Phim tâm lý gia đình cảm độngggg",
+      "id": "1"
+    }
+  ],
+  "stories": [
+    {
+      "id": "1",
+      "title": "Dế Mèn Phiêu Lưu Ký",
+      "author": "Tô Hoài",
+      "image": "https://picsum.photos/id/30/200/300",
+      "description": "Hành trình của chú dế mèn."
+    },
+    {
+      "title": "hiihhiih",
+      "categoryId": "2",
+      "author": "Nguyễn Hữu Toàn",
+      "image": "https://ui-avatars.com/api/?name=Toan&background=random",
+      "description": "hiihih",
+      "createdAt": "2026-04-04T08:51:10.157Z",
+      "id": "PzKENr-"
+    },
+    {
+      "title": "lrllrlrlr",
+      "categoryId": "r0WEO9i",
+      "author": "Nguyễn Văn B",
+      "image": "https://picsum.photos/400/300?random=111",
+      "description": "f4owe,ldmqwod",
+      "createdAt": "2026-04-04T08:53:23.821Z",
+      "id": "Hl6Lrly"
+    }
+  ],
+  "categories": [
+    {
+      "id": "1",
+      "name": "Hành động"
+    },
+    {
+      "id": "2",
+      "name": "Tình cảm"
+    },
+    {
+      "title": "hihiihihih",
+      "description": "jjjjj\n",
+      "active": true,
+      "id": "r0WEO9i"
+    }
+  ]
 }

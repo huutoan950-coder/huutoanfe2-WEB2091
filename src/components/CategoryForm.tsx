@@ -7,7 +7,7 @@ import { ICategory } from "../interfaces";
 export default function CategoryForm() {
   const { mutate, isPending, isSuccess } = useMutation({
     mutationFn: async (values: ICategory) => {
-      await axios.post("http://localhost:3001/categories", values);
+      await axios.post("http://localhost:3000/categories", values);
     },
     onSuccess: () => {
       toast.success("Category created successfully!");

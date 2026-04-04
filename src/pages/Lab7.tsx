@@ -19,14 +19,14 @@ export default function Lab7() {
   const { data, isLoading: isTableLoading } = useQuery({
     queryKey: ["movies"],
     queryFn: async () => {
-      const res = await axios.get("http://localhost:3001/movies");
+      const res = await axios.get("http://localhost:3000/movies");
       return res.data as IMovie[];
     },
   });
 
   const { mutate: addMovie, isPending: isAddPending } = useMutation({
     mutationFn: async (values: IMovie) => {
-      await axios.post("http://localhost:3001/movies", values);
+      await axios.post("http://localhost:3000/movies", values);
     },
     onSuccess: () => {
       message.success("Thêm phim thành công!");
@@ -38,7 +38,7 @@ export default function Lab7() {
 
   const { mutate: deleteMovie } = useMutation({
     mutationFn: async (id: string | number) => {
-      await axios.delete(`http://localhost:3001/movies/${id}`);
+      await axios.delete(`http://localhost:3000/movies/${id}`);
     },
     onSuccess: () => {
       message.success("Xóa phim thành công!");

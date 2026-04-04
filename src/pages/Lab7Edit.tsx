@@ -14,7 +14,7 @@ export default function Lab7Edit() {
   const { data: movie, isLoading } = useQuery({
     queryKey: ["movie", id],
     queryFn: async () => {
-      const res = await axios.get(`http://localhost:3001/movies/${id}`);
+      const res = await axios.get(`http://localhost:3000/movies/${id}`);
       return res.data as IMovie;
     },
     enabled: !!id,
@@ -26,7 +26,7 @@ export default function Lab7Edit() {
 
   const { mutate, isPending } = useMutation({
     mutationFn: async (values: IMovie) => {
-      await axios.put(`http://localhost:3001/movies/${id}`, values);
+      await axios.put(`http://localhost:3000/movies/${id}`, values);
     },
     onSuccess: () => {
       message.success("Cập nhật phim thành công!");

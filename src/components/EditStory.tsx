@@ -14,7 +14,7 @@ export default function EditStory() {
   const { data: categories } = useQuery({
     queryKey: ["categories"],
     queryFn: async () => {
-      const res = await axios.get("http://localhost:3001/categories");
+      const res = await axios.get("http://localhost:3000/categories");
       return res.data as ICategory[];
     },
   });
@@ -22,7 +22,7 @@ export default function EditStory() {
   const { data: storyDetail, isLoading: isStoryLoading } = useQuery({
     queryKey: ["story", id],
     queryFn: async () => {
-      const res = await axios.get(`http://localhost:3001/stories/${id}`);
+      const res = await axios.get(`http://localhost:3000/stories/${id}`);
       return res.data as IStory;
     },
     enabled: !!id,
@@ -36,7 +36,7 @@ export default function EditStory() {
 
   const { mutate, isPending } = useMutation({
     mutationFn: async (values: IStory) => {
-      await axios.patch(`http://localhost:3001/stories/${id}`, values);
+      await axios.patch(`http://localhost:3000/stories/${id}`, values);
     },
     onSuccess: () => {
       message.success("Cập nhật thành công");
